@@ -1,4 +1,6 @@
 import {useState, useEffect, React} from "react"
+import Button from "react-bootstrap/Button"
+import Table from "react-bootstrap/Table"
 
 function DecoderResultsPage({vehicle_data}) {
     const key_val_list = vehicle_data["Results"];
@@ -64,20 +66,22 @@ function DecoderResultsPage({vehicle_data}) {
             <div>Search VIN: {vehicle_data["SearchCriteria"]}</div>
             <div>Data Quality: {JSON.stringify(vehicle_data["Results"][4]["Value"])}</div>
             </b>
-            <button type="button" onClick={onFilterClick}>Filter Results!</button>
-            <button type="button" onClick={onSeeAllResultsClick}>See All Results</button>
-            <table className="results_table">
+            <Button type="button" className="mx-3 my-3 btn-success" onClick={onFilterClick}>Filter Results!</Button>
+            <Button type="button" className="mx-3 my-3 btn-warning" onClick={onSeeAllResultsClick}>See All Results</Button>
+
+            <div className="container">
+            <Table striped hover bordered size="sm">
                 <thead>
                     <tr>
-                        <th>Attribute</th>
-                        <th>Value</th>
+                        <th style={{width: "30%"}}>Attribute</th>
+                        <th style={{width: "50%"}}>Value</th>
                     </tr>
                 </thead>
                 <tbody>
                     {filtered_key_val_list.map(item => <tr key={item.Variable}><td>{item.Variable}</td><td>{item.Value}</td></tr>)}
                 </tbody>
-                
-            </table>
+            </Table>
+            </div>
             {/* {JSON.stringify(vehicle_data)} */}
         </div>
     )

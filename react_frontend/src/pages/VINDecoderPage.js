@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-
-
+import Button from "react-bootstrap/Button"
+import Form from "react-bootstrap/Form"
 
 function VINDecoderPage({set_vehicle_data}){
     const navigate = useNavigate()
@@ -40,18 +40,17 @@ function VINDecoderPage({set_vehicle_data}){
     return (
         <div>
         <h1>VIN Decoder</h1>
-        <form id="vin_lookup_form" action="" method="post" className="vin_lookup" >
-            <fieldset>
-                <legend>Enter target VIN</legend>
-                <label htmlFor="vin_input">Vehicle Identification Number(VIN):</label>
-                <input name="vin_input"/>
-            </fieldset>
-            <button type="button" onClick={onVINSearch}>Search!</button>
+        <Form id="vin_lookup_form" action="" method="post" className="vin_lookup" >
+            <Form.Group className="mb-3" controlId="vin_input">
+                <Form.Label>Enter Vehicle Identification Number(VIN):</Form.Label>
+                <Form.Control type="text" placeholder="Enter Vehicle Identification Number..." name="vin_input"/>
+            </Form.Group>
+            <Button type="button" onClick={onVINSearch}>Search!</Button>
             <p>
                 NOTE: Any missing decoded values should be interpreted as NHTSA does not have data on the specific variable. 
                 Missing value should NOT be interpreted as an indication that a feature or technology is unavailable for a vehicle.
             </p>
-        </form>
+        </Form>
         <div id="lookup_res"></div>
         </div>
     )
