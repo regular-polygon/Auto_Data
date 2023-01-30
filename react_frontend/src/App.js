@@ -19,9 +19,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-      <nav className="nav_bar">
         <NavBar/>
-      </nav>
       <Routes>
         <Route path="/" exact element = {<HomePage/>}/>
         <Route path="/decode" element = {<VINDecoderPage set_vehicle_data={set_vehicle_data}/>}/>
