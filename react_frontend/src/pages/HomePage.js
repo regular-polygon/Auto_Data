@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink, Link} from "react-router-dom"
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container';
@@ -16,9 +17,9 @@ function HomePage() {
                         <Card.Body>
                             <Card.Title>VIN Decoder</Card.Title>
                             <Card.Text>
-                                Enter a vehicle identification number and get detailed data for that vehicle.
+                                Enter a 17-digit vehicle identification number and get detailed data for that vehicle from the National Highway Traffic Safety Administration.
                             </Card.Text>
-                            <Button variant="primary" href="/decode">Go to VIN Decoder</Button>
+                            <Button variant="primary" as={Link} to="/decode">Go to VIN Decoder</Button>
                         </Card.Body>
                     </Card>
                     </Col>
@@ -31,7 +32,7 @@ function HomePage() {
                             <Card.Text>
                                 Don't have a car in mind? Click here to research manufacturers, models, and more.
                             </Card.Text>
-                            <Button variant="primary" href="/research">See More</Button>
+                            <Button variant="primary" as={Link} to="/research">See More</Button>
                         </Card.Body>
                     </Card>
                     </Col>

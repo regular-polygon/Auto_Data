@@ -15,6 +15,7 @@ import DecoderResultsPage from './pages/DecoderResultsPage';
 function App() {
   // lift data from VIN Decoder Page
   const [vehicle_data, set_vehicle_data] = useState({});
+  const [search_history, set_search_history] = useState([])
 
   return (
     <div className="App">
@@ -22,7 +23,7 @@ function App() {
         <NavBar/>
       <Routes>
         <Route path="/" exact element = {<HomePage/>}/>
-        <Route path="/decode" element = {<VINDecoderPage set_vehicle_data={set_vehicle_data}/>}/>
+        <Route path="/decode" element = {<VINDecoderPage set_vehicle_data={set_vehicle_data} search_history={search_history} set_search_history={set_search_history}/>}/>
         <Route path="/research" element = {<ResearchHelperPage/>}/>
         <Route path="/decoderresults" element = {<DecoderResultsPage vehicle_data={vehicle_data}/>}/>
       </Routes>

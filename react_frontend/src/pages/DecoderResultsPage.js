@@ -1,7 +1,9 @@
 import {useState, useEffect, React} from "react"
+import {Link, NavLink} from "react-router-dom"
 import Button from "react-bootstrap/Button"
 import Table from "react-bootstrap/Table"
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Dropdown from "react-bootstrap/Dropdown"
 
 function DecoderResultsPage({vehicle_data}) {
     const key_val_list = vehicle_data["Results"];
@@ -47,8 +49,8 @@ function DecoderResultsPage({vehicle_data}) {
     return (
         <div>
             <Breadcrumb>
-                <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-                <Breadcrumb.Item href="/decode">VIN Decoder</Breadcrumb.Item>
+                <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
+                <Breadcrumb.Item><Link to="/decode">VIN Decoder</Link></Breadcrumb.Item>
                 <Breadcrumb.Item active>Results</Breadcrumb.Item>
             </Breadcrumb>
             <fieldset>
@@ -68,12 +70,21 @@ function DecoderResultsPage({vehicle_data}) {
                     </div>
                 </div>
             </fieldset>
+            <Button type="button" className="mx-3 my-3 btn-success" onClick={onFilterClick}>Filter Results</Button>
+            <Dropdown>
+                <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                    Advanced Options
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={onSeeAllResultsClick}>Show All Vehicle Attributes</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown> 
             <b>
             <div>Search VIN: {vehicle_data["SearchCriteria"]}</div>
             <div>Data Quality: {JSON.stringify(vehicle_data["Results"][4]["Value"])}</div>
             </b>
-            <Button type="button" className="mx-3 my-3 btn-success" onClick={onFilterClick}>Filter Results!</Button>
-            <Button type="button" className="mx-3 my-3 btn-warning" onClick={onSeeAllResultsClick}>See All Results</Button>
+            <Button type="button" className="mx-3 my-3 btn-warning" onClick={onSeeAllResultsClick}>See All Attributes</Button>
 
             <div className="container">
             <Table striped hover bordered size="sm">
