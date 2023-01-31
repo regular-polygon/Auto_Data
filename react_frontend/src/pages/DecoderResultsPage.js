@@ -6,7 +6,13 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Dropdown from "react-bootstrap/Dropdown"
 
 function DecoderResultsPage({vehicle_data}) {
-    const key_val_list = vehicle_data["Results"];
+    const data_obj_list = vehicle_data["Results"];
+    // an object containing variable: value pairs from the data_obj_list
+    const key_val_obj = {}
+    for (let item of data_obj_list) {
+        key_val_obj[item["Variable"]] = item["Value"];
+    }
+
     let filter_options = ["Model Year", "Make", "Vehicle Type", "Trim", "Series"];
     let basic_options = ["Base Price ($)", "Body Class", "Fuel Type - Primary"];
     let performance_options = ["Transmission Style", "Transmission Speeds", "Drive Type", "Engine Number of Cylinders", "Displacement (L)", "Top Speed (MPH)"]
@@ -15,13 +21,14 @@ function DecoderResultsPage({vehicle_data}) {
 
     // generate a minimal default results list
     let init_list = [];
-    for (const item of key_val_list) {
-        if (filter_options.includes(item.Variable)) {
-            init_list.push(item);
-        }
+    for (let attribute of filter_options) {
+        let item = {}
+        item["Variable"] = attribute
+        item["Value"] = key_val_obj[attribute]
+        init_list.push(item);
     }
     const [filtered_key_val_list, set_filtered_key_val_list] = useState(init_list)
-    
+
     function onFilterClick(){
         filter_options = ["Model Year", "Make", "Vehicle Type", "Trim", "Series"]
         if (document.getElementById("show_basic_attributes").checked) {
@@ -33,17 +40,19 @@ function DecoderResultsPage({vehicle_data}) {
         if (document.getElementById("show_safety_attributes").checked) {
             filter_options = filter_options.concat(safety_options)
         }
+
         let new_table_data = [];
-        for (const item of key_val_list) {
-            if (filter_options.includes(item.Variable)) {
-                new_table_data.push(item);
-            }
+        for (let attribute of filter_options) {
+            let item = {}
+            item["Variable"] = attribute
+            item["Value"] = key_val_obj[attribute]
+            new_table_data.push(item);
         set_filtered_key_val_list(new_table_data);
         }
     }
 
     function onSeeAllResultsClick() {
-        set_filtered_key_val_list(key_val_list);
+        set_filtered_key_val_list(data_obj_list);
     }
 
     return (
@@ -70,7 +79,7 @@ function DecoderResultsPage({vehicle_data}) {
                     </div>
                 </div>
             </fieldset>
-            <Button type="button" className="mx-3 my-3 btn-success" onClick={onFilterClick}>Filter Results</Button>
+            <Button type="button" className="mx-3 px-5 my-3 btn-success" onClick={onFilterClick}>Filter Results</Button>
             <Dropdown>
                 <Dropdown.Toggle variant="warning" id="dropdown-basic">
                     Advanced Options
@@ -84,7 +93,6 @@ function DecoderResultsPage({vehicle_data}) {
             <div>Search VIN: {vehicle_data["SearchCriteria"]}</div>
             <div>Data Quality: {JSON.stringify(vehicle_data["Results"][4]["Value"])}</div>
             </b>
-            <Button type="button" className="mx-3 my-3 btn-warning" onClick={onSeeAllResultsClick}>See All Attributes</Button>
 
             <div className="container">
             <Table striped hover bordered size="sm">
