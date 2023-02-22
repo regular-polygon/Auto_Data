@@ -7,7 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown"
 
 function DecoderResultsPage({vehicle_data}) {
     const data_obj_list = vehicle_data["Results"];
-    // an object containing variable: value pairs from the data_obj_list
+    // an object containing (variable, value) pairs from the data_obj_list
     const key_val_obj = {}
     for (let item of data_obj_list) {
         key_val_obj[item["Variable"]] = item["Value"];
@@ -27,8 +27,11 @@ function DecoderResultsPage({vehicle_data}) {
         item["Value"] = key_val_obj[attribute]
         init_list.push(item);
     }
+
+    // the filtered_key_val_list is used to populate the html table
     const [filtered_key_val_list, set_filtered_key_val_list] = useState(init_list)
 
+    // when user attempts to filter the list, update the filtered_key_val_list accordingly
     function onFilterClick(){
         filter_options = ["Model Year", "Make", "Vehicle Type", "Trim", "Series"]
         if (document.getElementById("show_basic_attributes").checked) {
@@ -50,7 +53,9 @@ function DecoderResultsPage({vehicle_data}) {
         set_filtered_key_val_list(new_table_data);
         }
     }
-
+    
+    // In advanced options, users can choose to see all available (attribute, value) pairs. 
+    // This will completely undo the filter. 
     function onSeeAllResultsClick() {
         set_filtered_key_val_list(data_obj_list);
     }

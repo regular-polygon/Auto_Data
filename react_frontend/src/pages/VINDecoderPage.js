@@ -20,13 +20,14 @@ function VINDecoderPage({set_vehicle_data, search_history, set_search_history}){
         }
         console.log("post payload", payload);
 
-        // handle search history update
+        // retain a record of the three most recent searches
         if (search_history.length < 3) {
             set_search_history(search_history.concat(payload["vin_input"]));
         } else {
             set_search_history(search_history.slice(-2).concat(payload["vin_input"]));
         }
-
+        
+        // call the microservice.
         const response = await fetch("/api/VINLookup", {
             method: "POST",
             body: JSON.stringify(payload),
@@ -34,7 +35,8 @@ function VINDecoderPage({set_vehicle_data, search_history, set_search_history}){
                 'Content-Type': 'application/json'
               }
         });
-    
+        
+        // handle the microservice response.
         if (response.ok) {
             const res_data = await response.json()
             console.log("response", res_data);
