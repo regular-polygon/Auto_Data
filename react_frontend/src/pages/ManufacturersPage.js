@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import MfrForm from "../components/MfrForm";
 import MfrInfo from "../components/MfrInfo";
+import MfrDetailsTable from "../components/MfrDetails";
 import axios from "axios";
 
 function ManufacturersPage(){
@@ -12,7 +13,8 @@ function ManufacturersPage(){
     const [mfrDetails, setMfrDetails] = useState(null);
     const [mfrWiki, setMfrWiki] = useState(null);
 
-    // used to make API call
+    // make API call to get manufacturer details
+    // also sets the MfrDetails state variable
     async function getMfrDetails(mfrSelections) {
         if (mfrSelections.length > 0) {
             const response = await axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/getmanufacturerdetails/${mfrSelections[0]["Mfr_ID"]}?format=json`, {
@@ -21,18 +23,23 @@ function ManufacturersPage(){
             
             // handle the microservice response.
             if (response.status == 200) {
-                const res_data = await response.data
-                console.log("response", res_data);
+                const res_data = await response.data;
+                console.log("NHTSA response", res_data);
                 setMfrDetails(res_data);
             } else {
                 console.log("Failed to get data. Status code:", response.status);
                 alert(`Failed to get data. Status code: ${response.status}`);
+                setMfrDetails(null);
             }
+        } else {
+            setMfrDetails(null);
         }
     }
+
+    // get new manufacturer details whenever the manufacturer selection changes.
     useEffect(() => {
-        console.log("updated to", mfrSelections)
-        getMfrDetails(mfrSelections)
+        console.log("updated to", mfrSelections);
+        getMfrDetails(mfrSelections);
     }, [mfrSelections])
 
     return (
@@ -43,7 +50,7 @@ function ManufacturersPage(){
         </Breadcrumb>
         <MfrForm mfrSelections={mfrSelections} setMfrSelections={setMfrSelections}/>
         <MfrInfo mfrSelections={mfrSelections}/>
-        <p>{mfrDetails != null ? JSON.stringify(mfrDetails) : "No details yet."}</p>
+        <MfrDetailsTable mfrDetails={mfrDetails}/>
         </>
     )
 }
