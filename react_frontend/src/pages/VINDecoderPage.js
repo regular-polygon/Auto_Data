@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import SearchHistory from '../components/SearchHistory';
-
+import axios from 'axios';
 function VINDecoderPage({set_vehicle_data, search_history, set_search_history}){
     // handle redirect to results pages
     const navigate = useNavigate()
@@ -19,26 +19,29 @@ function VINDecoderPage({set_vehicle_data, search_history, set_search_history}){
             payload[key] = value;
         }
         console.log("post payload", payload);
+        const vin_input = payload["vin_input"];
+        // call API
+        console.log("Target VIN:", vin_input)
+        // axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${vin_input}?format=json`).then((response) => {
+        //     console.log(response.status);
+        //     console.log(response.statusText);
+        //     if (response.status == 200) {
+        //         const res_data = response.data()
+        //         console.log("response", res_data);
+        //         set_vehicle_data(res_data);
+        //         navigate("/decoderresults");
+        //     } else {
+        //         console.log("Failed to get data. Status code:", response.status);
+        //         alert(`Failed to get data. Status code: ${response.status}`);
+        //     }
+        // }).catch((error) => {
+        //     console.log(error.response.status);
+        //     alert(`Failed to get data. Status code: ${error.response.status}`);
+        // })
 
-        // retain a record of the three most recent searches
-        if (search_history.length < 3) {
-            set_search_history(search_history.concat(payload["vin_input"]));
-        } else {
-            set_search_history(search_history.slice(-2).concat(payload["vin_input"]));
-        }
-        
-        // call the microservice.
-        const response = await fetch("/api/VINLookup", {
-            method: "POST",
-            body: JSON.stringify(payload),
-            headers: {
-                'Content-Type': 'application/json'
-              }
-        });
-        
-        // handle the microservice response.
-        if (response.ok) {
-            const res_data = await response.json()
+        const response = await axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${vin_input}?format=json`);
+        if (response.status == 200) {
+            const res_data = await response.data;
             console.log("response", res_data);
             set_vehicle_data(res_data);
             navigate("/decoderresults");
@@ -46,6 +49,13 @@ function VINDecoderPage({set_vehicle_data, search_history, set_search_history}){
             console.log("Failed to get data. Status code:", response.status);
             alert(`Failed to get data. Status code: ${response.status}`);
         }
+        // retain a record of the three most recent searches
+        if (search_history.length < 3) {
+            set_search_history(search_history.concat(payload["vin_input"]));
+        } else {
+            set_search_history(search_history.slice(-2).concat(payload["vin_input"]));
+        }
+        
     }
 
     return (

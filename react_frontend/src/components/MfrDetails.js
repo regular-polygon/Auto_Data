@@ -1,11 +1,13 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import Table from "react-bootstrap/Table";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 function MfrDetailsTable({mfrDetails}){
     {console.log("Mfr Details", mfrDetails)}
     if (mfrDetails != null) {
         return (
-            <div className='container-fluid'>
                 <Table striped bordered hover size="sm" responsive>
                     <thead>
                         <tr>
@@ -26,7 +28,6 @@ function MfrDetailsTable({mfrDetails}){
                         })}
                     </tbody>
                 </Table>
-            </div>
         )
     } else {
         return <p>No details available.</p>

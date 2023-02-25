@@ -9,9 +9,9 @@ function MfrForm({mfrSelections, setMfrSelections}){
     const ref = React.createRef();
     return (
         <>
+        <div class="container my-3">
         <Form.Group>
-            <Form.Label>List of NHTSA Manufacturers</Form.Label>
-            <div class="container">
+            <Form.Label><h2>List of NHTSA Manufacturers</h2></Form.Label>
                 <div class="row">
                     <div class="col-sm-10 my-auto">
                         <Typeahead
@@ -30,8 +30,8 @@ function MfrForm({mfrSelections, setMfrSelections}){
                         <Button type="button" onClick={() => setMfrSelections([])} className="mx-3">Clear Input</Button>
                     </div>
                 </div>
-            </div>
         </Form.Group>
+        </div>
         
         </>
     )

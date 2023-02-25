@@ -10,10 +10,9 @@ function MfrInfo({mfrSelections}) {
         return (
             <div>
                 {console.log("Mfr Info", mfrSelections)}
-                <div className='container-fluid'>
-                    <Table striped bordered hover size="sm" responsive>
-                        <thead>
-                            <tr className="same-col-widths">
+                    <Table striped bordered hover size="sm">
+                        <thead className=".th-lg">
+                            <tr>
                                 <th>Attribute</th>
                                 <th>Value</th>
                             </tr>
@@ -32,10 +31,9 @@ function MfrInfo({mfrSelections}) {
                         </tbody>
                     </Table>
                 </div>
-            </div>
         )
     } else {
-        return (<h3>Once you select a manufacturer from the dropdown, data will be displayed here.</h3>)
+        return (<p>Once you select a manufacturer from the dropdown, data will be displayed here.</p>)
     }
 
 
