@@ -8,6 +8,8 @@ function MfrDetailsTable({mfrDetails}){
     {console.log("Mfr Details", mfrDetails)}
     if (mfrDetails != null) {
         return (
+                <>
+                <h3>NHTSA Manufacturer Data</h3>
                 <Table striped bordered hover size="sm" responsive>
                     <thead>
                         <tr>
@@ -28,9 +30,10 @@ function MfrDetailsTable({mfrDetails}){
                         })}
                     </tbody>
                 </Table>
+                </>
         )
     } else {
-        return <p>No details available.</p>
+        return <div className='NoNHTSAData'></div>
     }
 }
 

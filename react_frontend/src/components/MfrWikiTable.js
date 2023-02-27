@@ -1,11 +1,11 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table'
 
-function MfrWiki({mfrInfoBox}){
+function MfrWikiTable({mfrInfoBox}){
     if (mfrInfoBox != null) {
         return (
             <>
-            {JSON.stringify(mfrInfoBox)}
+            <h3>Wikipedia Data</h3>
             <Table striped bordered hover size="sm" responsive>
                 <thead>
                     <tr>
@@ -29,8 +29,8 @@ function MfrWiki({mfrInfoBox}){
             </>
         )
     } else {
-        return <p>Info Box not available</p>
+        return <div className='NoInfoBox'></div>
     }
 }
 
-export default MfrWiki
+export default MfrWikiTable

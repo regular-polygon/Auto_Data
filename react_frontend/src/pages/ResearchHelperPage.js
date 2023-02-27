@@ -6,7 +6,6 @@ function ResearchHelperPage() {
     return (
         <div>
             <h1>Research Helper</h1>
-            <h2>To be implemented</h2>
             <Breadcrumb>
                 <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
                 <Breadcrumb.Item active>Research Helper</Breadcrumb.Item>

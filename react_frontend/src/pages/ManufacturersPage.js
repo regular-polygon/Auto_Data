@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom';
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import MfrForm from "../components/MfrForm";
 import MfrInfo from "../components/MfrInfo";
-import MfrDetailsTable from "../components/MfrDetails";
-import MfrWiki from "../components/MfrWiki";
+import MfrDetailsTable from "../components/MfrDetailsTable";
+import MfrWikiTable from "../components/MfrWikiTable";
 import axios from "axios";
 
 function ManufacturersPage(){
@@ -74,9 +74,9 @@ function ManufacturersPage(){
             <Breadcrumb.Item active>Research Helper</Breadcrumb.Item>
         </Breadcrumb>
         <MfrForm mfrSelections={mfrSelections} setMfrSelections={setMfrSelections}/>
-        <MfrInfo mfrSelections={mfrSelections}/>
+        {/* <MfrInfo mfrSelections={mfrSelections}/> */}
         <MfrDetailsTable mfrDetails={mfrDetails}/>
-        <MfrWiki mfrInfoBox = {mfrInfoBox}/>
+        <MfrWikiTable mfrInfoBox = {mfrInfoBox}/>
         </>
     )
 }
