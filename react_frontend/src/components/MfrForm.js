@@ -11,7 +11,7 @@ function MfrForm({mfrSelections, setMfrSelections}){
         <>
         <div class="container my-3">
         <Form.Group>
-            <Form.Label><h2>List of NHTSA Manufacturers</h2></Form.Label>
+            <Form.Label><h2>Get Car Manufacturer Data</h2></Form.Label>
                 <div class="row">
                     <div class="col-sm-10 my-auto">
                         <Typeahead

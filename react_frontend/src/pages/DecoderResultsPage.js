@@ -6,34 +6,45 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Dropdown from "react-bootstrap/Dropdown"
 
 function DecoderResultsPage({vehicle_data}) {
-    const data_obj_list = vehicle_data["Results"];
-    // an object containing (variable, value) pairs from the data_obj_list
-    const key_val_obj = {}
-    for (let item of data_obj_list) {
-        key_val_obj[item["Variable"]] = item["Value"];
+    if (Object.entries(vehicle_data).length == 0) {
+        return (
+            <p>Vehicle data not set.</p>
+        )
     }
+    const vehicle_data_key_val = vehicle_data["Results"][0];  // an object of vehicle attributes and values
+    // const key_val_obj = {}
+    // for (let item of data_obj_list) {
+    //     key_val_obj[item["Variable"]] = item["Value"];
+    // }
 
-    let filter_options = ["Model Year", "Make", "Vehicle Type", "Trim", "Series"];
-    let basic_options = ["Base Price ($)", "Body Class", "Fuel Type - Primary"];
-    let performance_options = ["Transmission Style", "Transmission Speeds", "Drive Type", "Engine Number of Cylinders", "Displacement (L)", "Top Speed (MPH)"]
-    let safety_options = ["Curtain Air Bag Locations", "Front Air Bag Locations", "Side Air Bag Locations", "Anti-lock Braking System (ABS)", "Electronic Stability Control (ESC)", 
-    "Traction Control", "Tire Pressure Monitoring System (TPMS) Type", "Adaptive Cruise Control (ACC)", "Blind Spot Warning (BSW)", "Forward Collision Warning (FCW)", "Backup Camera"];
+    let default_filter_options = ["ModelYear", "Make", "VehicleType", "Trim", "Series"];
+    let basic_options = ["BasePrice", "BodyClass", "FuelTypePrimary"];
+    let performance_options = ["TransmissionStyle", "TransmissionSpeeds", "DriveType", "EngineCylinders", "DisplacementL", "Top SpeedMPH"]
+    let safety_options = ["AirBagLocCurtain", "AirBagLocFront", "AirBagLocSide", "ABS", "ESC", 
+    "TractionControl", "TPMS", "AdaptiveCruiseControl", "BlindSpotMon", "ForwardCollisionWarning", "RearVisibilitySystem"];
 
-    // generate a minimal default results list
-    let init_list = [];
-    for (let attribute of filter_options) {
-        let item = {}
-        item["Variable"] = attribute
-        item["Value"] = key_val_obj[attribute]
-        init_list.push(item);
-    }
+    // // generate a minimal default results list
+    // let init_list = [];
+    // for (let attribute of filter_options) {
+    //     let item = {}
+    //     item["Variable"] = attribute
+    //     item["Value"] = key_val_obj[attribute]
+    //     init_list.push(item);
+    // }
 
+    
+    // set up initial table data
+    let init_key_val = Object.fromEntries(
+        Object.entries(vehicle_data_key_val).filter(
+            ([key, val]) => default_filter_options.includes(key)
+        )
+    )
     // the filtered_key_val_list is used to populate the html table
-    const [filtered_key_val_list, set_filtered_key_val_list] = useState(init_list)
+    const [filtered_key_val, set_filtered_key_val] = useState(init_key_val)
 
     // when user attempts to filter the list, update the filtered_key_val_list accordingly
     function onFilterClick(){
-        filter_options = ["Model Year", "Make", "Vehicle Type", "Trim", "Series"]
+        let filter_options = default_filter_options
         if (document.getElementById("show_basic_attributes").checked) {
             filter_options = filter_options.concat(basic_options)
         }
@@ -44,20 +55,20 @@ function DecoderResultsPage({vehicle_data}) {
             filter_options = filter_options.concat(safety_options)
         }
 
-        let new_table_data = [];
-        for (let attribute of filter_options) {
-            let item = {}
-            item["Variable"] = attribute
-            item["Value"] = key_val_obj[attribute]
-            new_table_data.push(item);
-        set_filtered_key_val_list(new_table_data);
-        }
+        let new_table_data = Object.fromEntries(
+            Object.entries(vehicle_data_key_val).filter(
+                ([key, val]) => filter_options.includes(key)
+            ).sort(
+                ([key1,val1], [key2, val2]) => key1.localeCompare(key2)
+            )
+        )
+        set_filtered_key_val(new_table_data)
     }
     
     // In advanced options, users can choose to see all available (attribute, value) pairs. 
     // This will completely undo the filter. 
     function onSeeAllResultsClick() {
-        set_filtered_key_val_list(data_obj_list);
+        set_filtered_key_val(vehicle_data_key_val);
     }
 
     return (
@@ -95,8 +106,8 @@ function DecoderResultsPage({vehicle_data}) {
                 </Dropdown.Menu>
             </Dropdown> 
             <b>
-            <div>Search VIN: {vehicle_data["SearchCriteria"]}</div>
-            <div>Data Quality: {JSON.stringify(vehicle_data["Results"][4]["Value"])}</div>
+            <div>Search VIN: {vehicle_data["VIN"]}</div>
+            <div>Data Quality: {JSON.stringify(vehicle_data_key_val["ErrorText"])}</div>
             </b>
 
             <div className="container">
@@ -108,7 +119,7 @@ function DecoderResultsPage({vehicle_data}) {
                     </tr>
                 </thead>
                 <tbody>
-                    {filtered_key_val_list.map(item => <tr key={item.Variable}><td>{item.Variable}</td><td>{item.Value}</td></tr>)}
+                    {Object.entries(filtered_key_val).map(entry => <tr key={entry[0]}><td>{entry[0]}</td><td>{entry[1]}</td></tr>)}
                 </tbody>
             </Table>
             </div>

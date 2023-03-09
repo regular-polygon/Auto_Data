@@ -14,7 +14,7 @@ function NavBar(){
                         <Nav.Link as={NavLink} to="/">Home</Nav.Link>
                         <Nav.Link as={NavLink} to="/decode">VIN Decoder</Nav.Link>
                         <Nav.Link as={NavLink} to="/research">Research Helper</Nav.Link>
-                        <Nav.Link as={NavLink} to="/decoderresults">Results</Nav.Link>
+                        {/* <Nav.Link as={NavLink} to="/decoderresults">Results</Nav.Link> */}
                     </Nav>
                 </Container>
         </Navbar>
