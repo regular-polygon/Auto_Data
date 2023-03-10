@@ -21,6 +21,7 @@ function CompareVehiclesPage({vehicle_data, set_vehicle_data}){
     }, [vehicle_data])
     
     async function onCompareClick(){
+        // input data validation
         if (car1_vin.length < 17 || car2_vin.length < 17) {
             alert("Please enter two complete 17-digit VINs.");
             return null;

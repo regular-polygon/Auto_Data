@@ -1,9 +1,13 @@
 import {useState, useEffect, React} from "react"
-import {Link, NavLink} from "react-router-dom"
+import {Link, Navigate, useNavigate} from "react-router-dom"
 import Button from "react-bootstrap/Button"
 import Table from "react-bootstrap/Table"
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Dropdown from "react-bootstrap/Dropdown"
+import Container from "react-bootstrap/Container";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 
 function DecoderResultsPage({vehicle_data}) {
     // This page shouldn't render anything if vehicle_data is not set. 
@@ -12,11 +16,14 @@ function DecoderResultsPage({vehicle_data}) {
             <p>Vehicle data not set.</p>
         )
     }
+
+    const navigate = useNavigate()
+
     const vehicle_data_key_val = vehicle_data["Results"][0];  // an object of vehicle attributes and values
-    // const key_val_obj = {}
-    // for (let item of data_obj_list) {
-    //     key_val_obj[item["Variable"]] = item["Value"];
-    // }
+
+    const [basic_filter, set_basic_filter] = useState(false)
+    const [performance_filter, set_performance_filter] = useState(false)
+    const [safety_filter, set_safety_filter] = useState(false)
 
     let default_filter_options = ["ModelYear", "Make", "VehicleType", "Trim", "Series"];
     let basic_options = ["BasePrice", "BodyClass", "FuelTypePrimary"];
@@ -36,13 +43,13 @@ function DecoderResultsPage({vehicle_data}) {
     // when user attempts to filter the list, update the filtered_key_val_list accordingly
     function onFilterClick(){
         let filter_options = default_filter_options
-        if (document.getElementById("show_basic_attributes").checked) {
+        if (basic_filter) {
             filter_options = filter_options.concat(basic_options)
         }
-        if (document.getElementById("show_performance_attributes").checked) {
+        if (performance_filter) {
             filter_options = filter_options.concat(performance_options)
         }
-        if (document.getElementById("show_safety_attributes").checked) {
+        if (safety_filter) {
             filter_options = filter_options.concat(safety_options)
         }
 
@@ -69,35 +76,40 @@ function DecoderResultsPage({vehicle_data}) {
                 <Breadcrumb.Item><Link to="/decode">VIN Decoder</Link></Breadcrumb.Item>
                 <Breadcrumb.Item active>Results</Breadcrumb.Item>
             </Breadcrumb>
-            <fieldset>
-                <legend>Search Options</legend>
-                <div>
-                    <div>
-                        <input type="checkbox" id="show_basic_attributes" name="show_basic_attributes"/>
-                        <label htmlFor="show_basic_attributes">Get Basic Attributes</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="show_performance_attributes" name="show_performance_attributes"/>
-                        <label htmlFor="show_performance_attributes">Get Performance Attributes</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="show_safety_attributes" name="show_safety_attributes"/>
-                        <label htmlFor="show_safety_attributes">Get Safety Attributes</label>
-                    </div>
-                </div>
-            </fieldset>
-            <Button type="button" className="mx-3 px-5 my-3 btn-success" onClick={onFilterClick}>Filter Results</Button>
-            <Dropdown>
-                <Dropdown.Toggle variant="warning" id="dropdown-basic">
-                    Advanced Options
-                </Dropdown.Toggle>
+            <h2>VIN Decode Results</h2>
+            
+            <Container className="mb-3">
+                <Row className="justify-content-md-center">
+                    <Col xs lg="2">
+                        <Button type="button" className="btn-info" onClick={() => {navigate("/research/comparevehicles")}}>Compare Vehicles</Button>
+                    </Col>
+                    <Col xs lg="2">
+                        <Dropdown>
+                            <Dropdown.Toggle variant="warning" id="dropdown-basic">
+                                Advanced Options
+                            </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                    <Dropdown.Item onClick={onSeeAllResultsClick}>Show All Vehicle Attributes</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown> 
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={onSeeAllResultsClick}>Show All Vehicle Attributes</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Col>
+                </Row> 
+            </Container>
+            <Container>
+                <Row className="justify-content-md-center">
+                    <Col md="3">
+                        <Form>
+                            <Form.Check onClick={()=>{set_basic_filter(basic_filter == false ? true : false)}} label="Get Basic Attributes" type="checkbox" id="show_basic_attributes" name="show_basic_attributes"/>
+                            <Form.Check onClick={()=>{set_performance_filter(performance_filter == false ? true : false)}} label="Get Performance Attributes" type="checkbox" id="show_performance_attributes" name="show_performance_attributes"/>
+                            <Form.Check onClick={()=>{set_safety_filter(safety_filter == false ? true : false)}} label="Get Safety Attributes" type="checkbox" id="show_safety_attributes" name="show_safety_attributes"/>
+                        </Form>
+                        <Button type="button" className="px-5 btn-success" onClick={onFilterClick}>Filter Results</Button>
+                    </Col>
+                </Row>
+            </Container>
             <b>
-            <div>Search VIN: {vehicle_data["VIN"]}</div>
+            <div>Search VIN: {vehicle_data["Results"][0]["VIN"]}</div>
             <div>Data Quality: {JSON.stringify(vehicle_data_key_val["ErrorText"])}</div>
             </b>
 

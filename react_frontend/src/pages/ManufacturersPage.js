@@ -74,7 +74,6 @@ function ManufacturersPage(){
             <Breadcrumb.Item active>Research Helper</Breadcrumb.Item>
         </Breadcrumb>
         <MfrForm mfrSelections={mfrSelections} setMfrSelections={setMfrSelections}/>
-        {/* <MfrInfo mfrSelections={mfrSelections}/> */}
         <MfrDetailsTable mfrDetails={mfrDetails}/>
         <MfrWikiTable mfrInfoBox = {mfrInfoBox}/>
         </>
