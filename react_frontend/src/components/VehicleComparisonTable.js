@@ -5,7 +5,6 @@ function VehicleComparisonTable({car1_data, car2_data}) {
     if (car1_data == null || car2_data == null ) {
         return <></>
     } else {
-
         return (
             <div className="container">
             <Table striped hover bordered size="sm">

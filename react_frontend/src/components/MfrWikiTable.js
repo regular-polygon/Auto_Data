@@ -1,8 +1,8 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table'
 
-function MfrWikiTable({mfrInfoBox}){
-    if (mfrInfoBox != null) {
+function MfrWikiTable({mfr_infobox}){
+    if (mfr_infobox != null) {
         return (
             <>
             <h3>Wikipedia Data</h3>
@@ -14,12 +14,12 @@ function MfrWikiTable({mfrInfoBox}){
                     </tr>
                 </thead>
                 <tbody>
-                    {Object.keys(mfrInfoBox).map((key) => {
-                        if (typeof mfrInfoBox[key] != "object") {
+                    {Object.keys(mfr_infobox).map((key) => {
+                        if (typeof mfr_infobox[key] != "object") {
                             return (
                                 <tr key={key}>
                                 <td>{key}</td>
-                                <td>{mfrInfoBox[key]}</td>
+                                <td>{mfr_infobox[key]}</td>
                                 </tr>
                             )
                         }

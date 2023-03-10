@@ -8,64 +8,63 @@ import MfrWikiTable from "../components/MfrWikiTable";
 import axios from "axios";
 
 function ManufacturersPage(){
-
     // set manufacturer selection
-    const [mfrSelections, setMfrSelections] = useState([]);
-    const [mfrDetails, setMfrDetails] = useState(null);
-    const [mfrInfoBox, setMfrInfoBox] = useState(null);
+    const [mfr_selections, set_mfr_selections] = useState([]);
+    const [mfr_details, set_mfr_details] = useState(null);
+    const [mfr_info_box, set_mfr_infobox] = useState(null);
 
     // make API call to get manufacturer details
     // also sets the MfrDetails state variable
-    async function getMfrDetails(mfrSelections) {
-        if (mfrSelections.length > 0) {
-            const response = await axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/getmanufacturerdetails/${mfrSelections[0]["Mfr_ID"]}?format=json`, {
+    async function get_mfr_details(mfr_selections) {
+        if (mfr_selections.length > 0) {
+            const response = await axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/getmanufacturerdetails/${mfr_selections[0]["Mfr_ID"]}?format=json`, {
                 method: "GET",
             });
             // handle the response.
             if (response.status == 200) {
                 const res_data = await response.data;
                 console.log("NHTSA response", res_data);
-                setMfrDetails(res_data);
+                set_mfr_details(res_data);
             } else {
                 console.log("Failed to get data mfr details. Status code:", response.status);
                 alert(`Failed to get data mfr details. Status code: ${response.status}`);
-                setMfrDetails(null);
+                set_mfr_details(null);
             }
         } else {
-            setMfrDetails(null);
+            set_mfr_details(null);
         }
     }
 
     // if available, extract wikipedia link from mfr data
     // call Wikipedia InfoBox microservice
     // set the mfrInfoBox state variable
-    async function getMfrInfoBox(mfrSelections) {
-        if (mfrSelections.length > 0 && mfrSelections[0].hasOwnProperty("wiki_link")) {
-            const response = await axios.get(`/api2/?link=${mfrSelections[0]["wiki_link"]}`, {
+    async function get_mfr_infobox(mfr_selections) {
+        if (mfr_selections.length > 0 && mfr_selections[0].hasOwnProperty("wiki_link")) {
+            const response = await axios.get(`/api2/?link=${mfr_selections[0]["wiki_link"]}`, {
                 method: "GET",
             });
             // handle the response.
             if (response.status == 200) {
                 const res_data = await response.data;
-                setMfrInfoBox(res_data);
+                set_mfr_infobox(res_data);
                 console.log("Info Box Response", res_data);
             } else {
                 console.log("Failed to get data info box. Status code:", response.status);
                 alert(`Failed to get data info box. Status code: ${response.status}`);
-                setMfrInfoBox(null);
+                set_mfr_infobox(null);
             }
         } else {
-            setMfrInfoBox(null);
+            set_mfr_infobox(null);
         }
         
     }
 
     // get new manufacturer details whenever the manufacturer selection changes.
     useEffect(() => {
-        console.log("updated to", mfrSelections);
-        getMfrDetails(mfrSelections);
-        getMfrInfoBox(mfrSelections);
-    }, [mfrSelections])
+        console.log("updated to", mfr_selections);
+        get_mfr_details(mfr_selections);
+        get_mfr_infobox(mfr_selections);
+    }, [mfr_selections])
 
     return (
         <>
@@ -73,9 +72,9 @@ function ManufacturersPage(){
             <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
             <Breadcrumb.Item active>Research Helper</Breadcrumb.Item>
         </Breadcrumb>
-        <MfrForm mfrSelections={mfrSelections} setMfrSelections={setMfrSelections}/>
-        <MfrDetailsTable mfrDetails={mfrDetails}/>
-        <MfrWikiTable mfrInfoBox = {mfrInfoBox}/>
+        <MfrForm mfr_selections={mfr_selections} set_mfr_selections={set_mfr_selections}/>
+        <MfrDetailsTable mfr_details={mfr_details}/>
+        <MfrWikiTable mfr_infobox = {mfr_info_box}/>
         </>
     )
 }

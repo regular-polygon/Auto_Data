@@ -1,15 +1,15 @@
 import {React, useEffect} from "react";
 import Table from "react-bootstrap/Table";
 
-function MfrInfo({mfrSelections}) {
+function MfrInfo({mfr_selections}) {
 
     //useEffect monitor mfrSelection
     // call API to get details
 
-    if (mfrSelections.length > 0) {
+    if (mfr_selections.length > 0) {
         return (
             <div>
-                {console.log("Mfr Info", mfrSelections)}
+                {console.log("Mfr Info", mfr_selections)}
                     <Table striped bordered hover size="sm">
                         <thead className=".th-lg">
                             <tr>
@@ -18,12 +18,12 @@ function MfrInfo({mfrSelections}) {
                             </tr>
                         </thead>
                         <tbody>
-                            {Object.keys(mfrSelections[0]).map((key) => {
-                                if (typeof mfrSelections[0][key] != "object") {
+                            {Object.keys(mfr_selections[0]).map((key) => {
+                                if (typeof mfr_selections[0][key] != "object") {
                                     return (
                                         <tr key={key}>
                                         <td>{key}</td>
-                                        <td>{mfrSelections[0][key]}</td>
+                                        <td>{mfr_selections[0][key]}</td>
                                         </tr>
                                     )
                                 }

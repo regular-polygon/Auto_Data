@@ -4,9 +4,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-function MfrDetailsTable({mfrDetails}){
-    {console.log("Mfr Details", mfrDetails)}
-    if (mfrDetails != null) {
+function MfrDetailsTable({mfr_details}){
+    {console.log("Mfr Details", mfr_details)}
+    if (mfr_details != null) {
         return (
                 <>
                 <h3>NHTSA Manufacturer Data</h3>
@@ -18,12 +18,12 @@ function MfrDetailsTable({mfrDetails}){
                         </tr>
                     </thead>
                     <tbody>
-                        {Object.keys(mfrDetails["Results"][0]).map((key) => {
-                            if (typeof mfrDetails["Results"][0][key] != "object") {
+                        {Object.keys(mfr_details["Results"][0]).map((key) => {
+                            if (typeof mfr_details["Results"][0][key] != "object") {
                                 return (
                                     <tr key={key}>
                                     <td>{key}</td>
-                                    <td>{mfrDetails["Results"][0][key]}</td>
+                                    <td>{mfr_details["Results"][0][key]}</td>
                                     </tr>
                                 )
                             }

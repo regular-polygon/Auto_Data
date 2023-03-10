@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { manufacturers } from "../data/manufacturers";
 
-function MfrForm({mfrSelections, setMfrSelections}){
+function MfrForm({mfr_selections, set_mfr_selections}){
     let options = manufacturers;
     const ref = React.createRef();
     return (
@@ -17,17 +17,17 @@ function MfrForm({mfrSelections, setMfrSelections}){
                         <Typeahead
                         id="basic-typeahead-single"
                         labelKey="Mfr_Name"
-                        onChange={setMfrSelections}
+                        onChange={set_mfr_selections}
                         options={options}
                         paginate={true}
                         ref={ref}
                         dropup={false}
                         placeholder="Select a Manufacturer..."
-                        selected={mfrSelections}
+                        selected={mfr_selections}
                         />
                     </div>
                     <div class="col-sm-2">
-                        <Button type="button" onClick={() => setMfrSelections([])} className="mx-3">Clear Input</Button>
+                        <Button type="button" onClick={() => set_mfr_selections([])} className="mx-3">Clear Input</Button>
                     </div>
                 </div>
         </Form.Group>
