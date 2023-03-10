@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form"
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import SearchHistory from '../components/SearchHistory';
 import axios from 'axios';
+
 function VINDecoderPage({set_vehicle_data, search_history, set_search_history}){
     // handle redirect to results pages
     const navigate = useNavigate()

@@ -6,6 +6,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Dropdown from "react-bootstrap/Dropdown"
 
 function DecoderResultsPage({vehicle_data}) {
+    // This page shouldn't render anything if vehicle_data is not set. 
     if (Object.entries(vehicle_data).length == 0) {
         return (
             <p>Vehicle data not set.</p>
@@ -22,16 +23,6 @@ function DecoderResultsPage({vehicle_data}) {
     let performance_options = ["TransmissionStyle", "TransmissionSpeeds", "DriveType", "EngineCylinders", "DisplacementL", "Top SpeedMPH"]
     let safety_options = ["AirBagLocCurtain", "AirBagLocFront", "AirBagLocSide", "ABS", "ESC", 
     "TractionControl", "TPMS", "AdaptiveCruiseControl", "BlindSpotMon", "ForwardCollisionWarning", "RearVisibilitySystem"];
-
-    // // generate a minimal default results list
-    // let init_list = [];
-    // for (let attribute of filter_options) {
-    //     let item = {}
-    //     item["Variable"] = attribute
-    //     item["Value"] = key_val_obj[attribute]
-    //     init_list.push(item);
-    // }
-
     
     // set up initial table data
     let init_key_val = Object.fromEntries(
@@ -123,7 +114,6 @@ function DecoderResultsPage({vehicle_data}) {
                 </tbody>
             </Table>
             </div>
-            {/* {JSON.stringify(vehicle_data)} */}
         </div>
     )
 }

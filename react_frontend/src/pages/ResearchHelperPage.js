@@ -11,7 +11,7 @@ function ResearchHelperPage() {
                 <Breadcrumb.Item active>Research Helper</Breadcrumb.Item>
             </Breadcrumb>
             <div><Link to="/research/manufacturers" className="NavElement">Research a car manufacturer</Link></div>
-            <div><Link to="/research/models" className="NavElement">Research car models by year, make, and vehicle type.</Link></div>
+            <div><Link to="/research/comparevehicles" className="NavElement">Compare Two Vehicles by VIN</Link></div>
         </div>
     )
 }

@@ -11,6 +11,7 @@ import VINDecoderPage from './pages/VINDecoderPage';
 import ResearchHelperPage from './pages/ResearchHelperPage';
 import DecoderResultsPage from './pages/DecoderResultsPage';
 import ManufacturersPage from './pages/ManufacturersPage';
+import CompareVehiclesPage from './pages/CompareVehiclesPage';
 
 function App() {
   // lift data from VIN Decoder Page
@@ -28,6 +29,7 @@ function App() {
         <Route path="/research" element = {<ResearchHelperPage/>}/>
         <Route path="/decoderresults" element = {<DecoderResultsPage vehicle_data={vehicle_data}/>}/>
         <Route path="/research/manufacturers" element = {<ManufacturersPage />}/>
+        <Route path="/research/comparevehicles" element = {<CompareVehiclesPage vehicle_data={vehicle_data} set_vehicle_data={set_vehicle_data}/>}/>
       </Routes>
       </BrowserRouter>
     </div>
