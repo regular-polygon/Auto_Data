@@ -12,7 +12,7 @@ function VehicleComparisonTable({car1_data, car2_data}) {
                     <tr>
                         <th>Attribute</th>
                         <th>{car1_data["Make"].concat(" ", car1_data["Model"], " ", car1_data["ModelYear"])}</th>
-                        <th>{car2_data["Make"].concat(" ", car1_data["Model"], " ", car1_data["ModelYear"])}</th>
+                        <th>{car2_data["Make"].concat(" ", car2_data["Model"], " ", car2_data["ModelYear"])}</th>
                     </tr>
                 </thead>
                 <tbody>

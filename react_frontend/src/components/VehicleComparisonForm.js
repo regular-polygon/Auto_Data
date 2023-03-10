@@ -6,12 +6,10 @@ import Form from "react-bootstrap/Form";
 import axios from 'axios';
 import VehicleComparisonTable from "../components/VehicleComparisonTable";
 
-function CompareVehiclesPage({vehicle_data, set_vehicle_data}){
+function VehicleComparisonForm({vehicle_data, set_car1_data, set_car2_data}) {
     const [car1_vin, set_car1_vin] = useState("")
     const [car2_vin, set_car2_vin] = useState("")
-    const [car1_data, set_car1_data] = useState(null)
-    const [car2_data, set_car2_data] = useState(null)
-
+    
     // if we've already decoded one VIN, use it as vehicle one
     useEffect(() => {
         if (Object.entries(vehicle_data).length != 0) {
@@ -20,7 +18,7 @@ function CompareVehiclesPage({vehicle_data, set_vehicle_data}){
         }
     }, [vehicle_data])
     
-    async function onCompareClick(){
+    async function on_compare_click(){
         // input data validation
         if (car1_vin.length < 17 || car2_vin.length < 17) {
             alert("Please enter two complete 17-digit VINs.");
@@ -47,26 +45,17 @@ function CompareVehiclesPage({vehicle_data, set_vehicle_data}){
             alert(`Failed to get data. Status code: ${response2.status}`);
         }
     }
+
     return (
-        <>
-            <Breadcrumb>
-                <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
-                <Breadcrumb.Item><Link to="/research">Research Helper</Link></Breadcrumb.Item>
-                <Breadcrumb.Item active>Compare Vehicles</Breadcrumb.Item>
-            </Breadcrumb>
-
-            <Form id="vin_lookup_form" onSubmit={(event) => {event.preventDefault();}} className="vin_lookup" autoComplete='off' >
-                <Form.Group className="mb-3" controlId="compare_vehicle_input">
-                    <Form.Label>Enter Vehicle Identification Number(VIN):</Form.Label>
-                    <Form.Control type="text" value={car1_vin} onChange={(event) => {set_car1_vin(event.target.value)}} placeholder="Enter Vehicle Identification Number..." name="car1_vin_input" style={{width: "50%", margin:"auto"}}/>
-                    <Form.Control type="text" value={car2_vin} onChange={(event) => {set_car2_vin(event.target.value)}} placeholder="Enter Vehicle Identification Number..." name="car2_vin_input" style={{width: "50%", margin:"auto"}}/>
-                </Form.Group>
-                <Button type="button" onClick={onCompareClick} className="mb-3">Compare Vehicles</Button>
-            </Form>
-
-            <VehicleComparisonTable car1_data={car1_data} car2_data={car2_data}/>
-        </>
+        <Form id="vin_lookup_form" onSubmit={(event) => {event.preventDefault();}} className="vin_lookup" autoComplete='off' >
+            <Form.Group className="mb-3" controlId="compare_vehicle_input">
+                <Form.Label>Enter Vehicle Identification Number(VIN):</Form.Label>
+                <Form.Control type="text" value={car1_vin} onChange={(event) => {set_car1_vin(event.target.value)}} placeholder="Enter VIN for vehicle 1..." name="car1_vin_input" style={{width: "50%", margin:"auto"}}/>
+                <Form.Control type="text" value={car2_vin} onChange={(event) => {set_car2_vin(event.target.value)}} placeholder="Enter VIN for vehicle 2..." name="car2_vin_input" style={{width: "50%", margin:"auto"}} className="my-2"/>
+            </Form.Group>
+            <Button type="button" onClick={on_compare_click} className="mb-3">Compare Vehicles</Button>
+        </Form>
     )
 }
 
-export default CompareVehiclesPage
+export default VehicleComparisonForm;
