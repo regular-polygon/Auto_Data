@@ -14,6 +14,10 @@ function VINDecoderForm({set_vehicle_data, set_search_history, search_history}){
 
     // handle VIN search submission
     async function onVINSearch(input_vin) {
+        if (input_vin.length < 1) {
+            alert("Please enter a full or partial VIN.")
+            return null;
+        }
         // call API
         console.log("Calling API with VIN:", input_vin)
         //const response = await axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${vin_input}?format=json`);
@@ -30,9 +34,9 @@ function VINDecoderForm({set_vehicle_data, set_search_history, search_history}){
 
         // retain a record of the three most recent searches
         if (search_history.length < 3) {
-            set_search_history(search_history.concat(payload["vin_input"]));
+            set_search_history(search_history.concat(input_vin));
         } else {
-            set_search_history(search_history.slice(-2).concat(payload["vin_input"]));
+            set_search_history(search_history.slice(-2).concat(input_vin));
         }
     }
     return (

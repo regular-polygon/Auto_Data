@@ -12,7 +12,7 @@ function HomePage() {
             <h1>Home Page</h1>
             <Container fluid="md">
                 <Row className="justify-content-md-center my-3">
-                    <Col md="4">
+                    <Col md="8">
                     <Card>
                         <Card.Body>
                             <Card.Title>VIN Decoder</Card.Title>
@@ -25,7 +25,7 @@ function HomePage() {
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center my-3">
-                    <Col md="4">
+                    <Col md="8">
                     <Card>
                         <Card.Body>
                             <Card.Title>Research Helper</Card.Title>

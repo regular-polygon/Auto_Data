@@ -80,10 +80,10 @@ function DecoderResultsPage({vehicle_data}) {
             
             <Container className="mb-3">
                 <Row className="justify-content-md-center">
-                    <Col xs lg="2">
+                    <Col xs lg="3">
                         <Button type="button" className="btn-info" onClick={() => {navigate("/research/comparevehicles")}}>Compare Vehicles</Button>
                     </Col>
-                    <Col xs lg="2">
+                    <Col xs lg="3">
                         <Dropdown>
                             <Dropdown.Toggle variant="warning" id="dropdown-basic">
                                 Advanced Options
@@ -98,7 +98,8 @@ function DecoderResultsPage({vehicle_data}) {
             </Container>
             <Container>
                 <Row className="justify-content-md-center">
-                    <Col md="3">
+                    <Col md="5">
+                        <h3>Filter Options</h3>
                         <Form>
                             <Form.Check onClick={()=>{set_basic_filter(basic_filter == false ? true : false)}} label="Get Basic Attributes" type="checkbox" id="show_basic_attributes" name="show_basic_attributes"/>
                             <Form.Check onClick={()=>{set_performance_filter(performance_filter == false ? true : false)}} label="Get Performance Attributes" type="checkbox" id="show_performance_attributes" name="show_performance_attributes"/>
