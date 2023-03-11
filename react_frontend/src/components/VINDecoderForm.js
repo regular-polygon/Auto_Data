@@ -1,10 +1,7 @@
 import {React, useState} from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import {Link, NavLink} from "react-router-dom"
+import {useNavigate} from 'react-router-dom';
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
-import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import SearchHistory from '../components/SearchHistory';
 import axios from 'axios';
 
 function VINDecoderForm({set_vehicle_data, set_search_history, search_history}){
@@ -13,7 +10,7 @@ function VINDecoderForm({set_vehicle_data, set_search_history, search_history}){
     const [input_vin, set_input_vin] = useState("")
 
     // handle VIN search submission
-    async function onVINSearch(input_vin) {
+    async function on_vin_search(input_vin) {
         if (input_vin.length < 1) {
             alert("Please enter a full or partial VIN.")
             return null;
@@ -40,12 +37,12 @@ function VINDecoderForm({set_vehicle_data, set_search_history, search_history}){
         }
     }
     return (
-        <Form id="vin_lookup_form" onSubmit={(event) => {event.preventDefault(); onVINSearch();}} className="vin_lookup" autoComplete='off' >
+        <Form id="vin_lookup_form" onSubmit={(event) => {event.preventDefault(); on_vin_search();}} className="vin_lookup" autoComplete='off' >
             <Form.Group className="mb-3" controlId="vin_input">
                 <Form.Label>Enter Vehicle Identification Number(VIN):</Form.Label>
                 <Form.Control onChange={(event)=>{set_input_vin(event.target.value)}} type="text" placeholder="Enter Vehicle Identification Number..." name="vin_input" style={{width: "50%", margin:"auto"}}/>
             </Form.Group>
-            <Button type="button" onClick={() => {onVINSearch(input_vin)}} className="mb-3">Search!</Button>
+            <Button type="button" onClick={() => {on_vin_search(input_vin)}} className="mb-3">Search!</Button>
         </Form>
     )
 }

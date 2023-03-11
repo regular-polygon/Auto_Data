@@ -1,9 +1,6 @@
 import {React, useState, useEffect} from "react";
 import {Link} from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import Form from "react-bootstrap/Form";
-import axios from 'axios';
 import VehicleComparisonTable from "../components/VehicleComparisonTable";
 import VehicleComparisonForm from "../components/VehicleComparisonForm";
 

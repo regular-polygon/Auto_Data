@@ -1,9 +1,7 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
+// renders data table on ManufacturersPage
 function MfrDetailsTable({mfr_details}){
     {console.log("Mfr Details", mfr_details)}
     if (mfr_details != null) {

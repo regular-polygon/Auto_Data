@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button'
@@ -7,7 +7,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-function ResearchHelperPage() {
+function ResearchHelperPage({set_vehicle_data}) {
+    const navigate = useNavigate();
+    // reset vehicle data if user goes to the vehicle comparison page via the button on this page
+    // so the VIN for vehicle 1 will not be populated with the VIN entered on the decoder page
+    function on_vehicle_comarison_tool_click(){
+        set_vehicle_data({});
+        navigate("/research/comparevehicles")
+    }
+
     return (
         <div>
             <Breadcrumb>
@@ -25,7 +33,7 @@ function ResearchHelperPage() {
                                 Select a car manufacturer and get detailed data for that vehicle from the National Highway Traffic Safety Administration.
                                 Wikipedia data is available for the top 50 car manufacturers.
                             </Card.Text>
-                            <Button variant="info" as={Link} to="/research/manufacturers">Research Manufacturers</Button>
+                            <Button variant="info" type="button" onClick={()=>{navigate("/research/manufacturers")}}>Research Manufacturers</Button>
                         </Card.Body>
                     </Card>
                     </Col>
@@ -38,7 +46,7 @@ function ResearchHelperPage() {
                             <Card.Text>
                                 Compare two vehicles side by side. Two vehicle identification numbers are required.
                             </Card.Text>
-                            <Button variant="info" as={Link} to="/research/comparevehicles">Vehicle Comparison Tool</Button>
+                            <Button variant="info" type="button" onClick={on_vehicle_comarison_tool_click}>Vehicle Comparison Tool</Button>
                         </Card.Body>
                     </Card>
                     </Col>

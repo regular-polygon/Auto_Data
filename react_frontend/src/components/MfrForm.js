@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { manufacturers } from "../data/manufacturers";
 
+// autocomplete dropdown for car manufacturer selection
 function MfrForm({mfr_selections, set_mfr_selections}){
     let options = manufacturers;
     const ref = React.createRef();
@@ -13,7 +14,7 @@ function MfrForm({mfr_selections, set_mfr_selections}){
         <Form.Group>
             <Form.Label><h2>Get Car Manufacturer Data</h2></Form.Label>
                 <div class="row">
-                    <div class="col-sm-10 my-auto">
+                    <div className="col-sm-10 my-auto">
                         <Typeahead
                         id="basic-typeahead-single"
                         labelKey="Mfr_Name"

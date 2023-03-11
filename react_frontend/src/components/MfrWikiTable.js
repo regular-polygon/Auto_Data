@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table'
 
+// render data table of wikipedia infobox scrape results
 function MfrWikiTable({mfr_infobox}){
     if (mfr_infobox != null) {
         return (

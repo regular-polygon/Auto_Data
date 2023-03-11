@@ -1,12 +1,10 @@
-import React from 'react';
+import {React, useState} from 'react';
 import {Link} from "react-router-dom"
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import SearchHistory from '../components/SearchHistory';
 import VINDecoderForm from '../components/VINDecoderForm';
 
 function VINDecoderPage({set_vehicle_data, search_history, set_search_history}){
-    
-
     return (
         <div>
             <Breadcrumb>
