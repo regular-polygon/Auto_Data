@@ -8,6 +8,8 @@ import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import VINRecallInfo from "../components/VINRecallInfo";
+import axios from "axios";
 
 function DecoderResultsPage({vehicle_data}) {
     // This page shouldn't render anything if vehicle_data is not set. 
@@ -21,6 +23,7 @@ function DecoderResultsPage({vehicle_data}) {
 
     const vehicle_data_key_val = vehicle_data["Results"][0];  // an object of vehicle attributes and values
 
+    const [recall_data, set_recall_data] = useState(null)
     const [basic_filter, set_basic_filter] = useState(false)
     const [performance_filter, set_performance_filter] = useState(false)
     const [safety_filter, set_safety_filter] = useState(false)
@@ -68,6 +71,26 @@ function DecoderResultsPage({vehicle_data}) {
     function onSeeAllResultsClick() {
         set_filtered_key_val(vehicle_data_key_val);
     }
+
+    // call API and get vehicle recall info
+    async function get_recall_data() {
+        // call API to get vehicle recall data
+        const [make, model, year] = [vehicle_data_key_val["Make"], vehicle_data_key_val["Model"], vehicle_data_key_val["ModelYear"]]
+        console.log("Calling API with:", make, model, year)
+        const response = await axios.get(`http://localhost:3839/api3/?make=${make}&model=${model}&year=${year}`);
+        if (response.status == 200) {
+            const res_data = await response.data;
+            console.log("response", res_data);
+            set_recall_data(JSON.parse(res_data));
+        } else {
+            console.log("Failed to get data. Status code:", response.status);
+            alert(`Failed to get data. Status code: ${response.status}`);
+        }
+    }
+
+    useEffect(()=>{
+        get_recall_data()
+    }, [])
 
     return (
         <div>
@@ -127,6 +150,7 @@ function DecoderResultsPage({vehicle_data}) {
                 </tbody>
             </Table>
             </div>
+            <VINRecallInfo recall_data={recall_data}/>
         </div>
     )
 }

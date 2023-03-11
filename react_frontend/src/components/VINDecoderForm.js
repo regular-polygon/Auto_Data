@@ -15,7 +15,7 @@ function VINDecoderForm({set_vehicle_data, set_search_history, search_history}){
             alert("Please enter a full or partial VIN.")
             return null;
         }
-        // call API
+        // call API to get vehicle info
         console.log("Calling API with VIN:", input_vin)
         //const response = await axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${vin_input}?format=json`);
         const response = await axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvaluesextended/${input_vin}?format=json`);
@@ -36,6 +36,7 @@ function VINDecoderForm({set_vehicle_data, set_search_history, search_history}){
             set_search_history(search_history.slice(-2).concat(input_vin));
         }
     }
+
     return (
         <Form id="vin_lookup_form" onSubmit={(event) => {event.preventDefault(); on_vin_search();}} className="vin_lookup" autoComplete='off' >
             <Form.Group className="mb-3" controlId="vin_input">
