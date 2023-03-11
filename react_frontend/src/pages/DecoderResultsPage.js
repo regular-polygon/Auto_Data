@@ -80,7 +80,7 @@ function DecoderResultsPage({vehicle_data}) {
         const response = await axios.get(`http://localhost:3839/api3/?make=${make}&model=${model}&year=${year}`);
         if (response.status == 200) {
             const res_data = await response.data;
-            console.log("response", res_data);
+            console.log("Get NHTSA Recall Response:", res_data);
             set_recall_data(JSON.parse(res_data));
         } else {
             console.log("Failed to get data. Status code:", response.status);
