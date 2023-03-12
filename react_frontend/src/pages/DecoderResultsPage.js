@@ -8,8 +8,11 @@ import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import VINRecallInfo from "../components/VINRecallInfo";
 import axios from "axios";
+import VINRecallInfo from "../components/VINRecallInfo";
+import DecoderResultsTable from "../components/DecoderResultsTable";
+import DecoderResultsFilter from "../components/DecoderResultsFilter";
+import DecoderResultsOptions from "../components/DecoderResultsOptions";
 
 function DecoderResultsPage({vehicle_data}) {
     // This page shouldn't render anything if vehicle_data is not set. 
@@ -19,22 +22,13 @@ function DecoderResultsPage({vehicle_data}) {
         )
     }
 
-    const navigate = useNavigate()
-
-    const vehicle_data_key_val = vehicle_data["Results"][0];  // an object of vehicle attributes and values
-
+    // an object of vehicle attributes and values
+    const vehicle_data_key_val = vehicle_data["Results"][0];  
+    // recall data, which is rendered below the vehicle data table
     const [recall_data, set_recall_data] = useState(null)
-    const [basic_filter, set_basic_filter] = useState(false)
-    const [performance_filter, set_performance_filter] = useState(false)
-    const [safety_filter, set_safety_filter] = useState(false)
-
-    let default_filter_options = ["ModelYear", "Make", "VehicleType", "Trim", "Series"];
-    let basic_options = ["BasePrice", "BodyClass", "FuelTypePrimary"];
-    let performance_options = ["TransmissionStyle", "TransmissionSpeeds", "DriveType", "EngineCylinders", "DisplacementL", "Top SpeedMPH"]
-    let safety_options = ["AirBagLocCurtain", "AirBagLocFront", "AirBagLocSide", "ABS", "ESC", 
-    "TractionControl", "TPMS", "AdaptiveCruiseControl", "BlindSpotMon", "ForwardCollisionWarning", "RearVisibilitySystem"];
     
     // set up initial table data
+    let default_filter_options = ["ModelYear", "Make", "VehicleType", "Trim", "Series"];
     let init_key_val = Object.fromEntries(
         Object.entries(vehicle_data_key_val).filter(
             ([key, val]) => default_filter_options.includes(key)
@@ -43,32 +37,9 @@ function DecoderResultsPage({vehicle_data}) {
     // the filtered_key_val_list is used to populate the html table
     const [filtered_key_val, set_filtered_key_val] = useState(init_key_val)
 
-    // when user attempts to filter the list, update the filtered_key_val_list accordingly
-    function onFilterClick(){
-        let filter_options = default_filter_options
-        if (basic_filter) {
-            filter_options = filter_options.concat(basic_options)
-        }
-        if (performance_filter) {
-            filter_options = filter_options.concat(performance_options)
-        }
-        if (safety_filter) {
-            filter_options = filter_options.concat(safety_options)
-        }
-
-        let new_table_data = Object.fromEntries(
-            Object.entries(vehicle_data_key_val).filter(
-                ([key, val]) => filter_options.includes(key)
-            ).sort(
-                ([key1,val1], [key2, val2]) => key1.localeCompare(key2)
-            )
-        )
-        set_filtered_key_val(new_table_data)
-    }
-    
     // In advanced options, users can choose to see all available (attribute, value) pairs. 
-    // This will completely undo the filter. 
-    function onSeeAllResultsClick() {
+    // This will completely undo the filter and show all attribute, value pairs. 
+    function on_see_all_results_click() {
         set_filtered_key_val(vehicle_data_key_val);
     }
 
@@ -87,7 +58,7 @@ function DecoderResultsPage({vehicle_data}) {
             alert(`Failed to get data. Status code: ${response.status}`);
         }
     }
-
+    // run get_recall_data once 
     useEffect(()=>{
         get_recall_data()
     }, [])
@@ -100,56 +71,11 @@ function DecoderResultsPage({vehicle_data}) {
                 <Breadcrumb.Item active>Results</Breadcrumb.Item>
             </Breadcrumb>
             <h2>VIN Decode Results</h2>
-            
-            <Container className="mb-3">
-                <Row className="justify-content-md-center">
-                    <Col xs lg="3">
-                        <Button type="button" className="btn-info" onClick={() => {navigate("/research/comparevehicles")}}>Compare Vehicles</Button>
-                    </Col>
-                    <Col xs lg="3">
-                        <Dropdown>
-                            <Dropdown.Toggle variant="warning" id="dropdown-basic">
-                                Advanced Options
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item onClick={onSeeAllResultsClick}>Show All Vehicle Attributes</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Col>
-                </Row> 
-            </Container>
-            <Container>
-                <Row className="justify-content-md-center">
-                    <Col md="5">
-                        <h3>Filter Options</h3>
-                        <Form>
-                            <Form.Check onClick={()=>{set_basic_filter(basic_filter == false ? true : false)}} label="Get Basic Attributes" type="checkbox" id="show_basic_attributes" name="show_basic_attributes"/>
-                            <Form.Check onClick={()=>{set_performance_filter(performance_filter == false ? true : false)}} label="Get Performance Attributes" type="checkbox" id="show_performance_attributes" name="show_performance_attributes"/>
-                            <Form.Check onClick={()=>{set_safety_filter(safety_filter == false ? true : false)}} label="Get Safety Attributes" type="checkbox" id="show_safety_attributes" name="show_safety_attributes"/>
-                        </Form>
-                        <Button type="button" className="px-5 btn-success" onClick={onFilterClick}>Filter Results</Button>
-                    </Col>
-                </Row>
-            </Container>
-            <b>
-            <div>Search VIN: {vehicle_data["Results"][0]["VIN"]}</div>
-            <div>Data Quality: {JSON.stringify(vehicle_data_key_val["ErrorText"])}</div>
-            </b>
-
-            <div className="container">
-            <Table striped hover bordered size="sm">
-                <thead>
-                    <tr>
-                        <th style={{width: "30%"}}>Attribute</th>
-                        <th style={{width: "50%"}}>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.entries(filtered_key_val).map(entry => <tr key={entry[0]}><td>{entry[0]}</td><td>{entry[1]}</td></tr>)}
-                </tbody>
-            </Table>
-            </div>
+            <DecoderResultsOptions on_see_all_results_click={on_see_all_results_click}/>
+            <DecoderResultsFilter set_filtered_key_val={set_filtered_key_val} default_filter_options={default_filter_options} vehicle_data_key_val={vehicle_data_key_val}/>
+            <div>Search VIN: {vehicle_data_key_val["VIN"]}</div>
+            <div>Data Quality: {vehicle_data_key_val["ErrorText"]}</div>
+            <DecoderResultsTable filtered_key_val={filtered_key_val}/>
             <VINRecallInfo recall_data={recall_data}/>
         </div>
     )

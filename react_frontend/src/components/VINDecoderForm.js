@@ -17,7 +17,6 @@ function VINDecoderForm({set_vehicle_data, set_search_history, search_history}){
         }
         // call API to get vehicle info
         console.log("Calling API with VIN:", input_vin)
-        //const response = await axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${vin_input}?format=json`);
         const response = await axios.get(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvaluesextended/${input_vin}?format=json`);
         if (response.status == 200) {
             const res_data = await response.data;
