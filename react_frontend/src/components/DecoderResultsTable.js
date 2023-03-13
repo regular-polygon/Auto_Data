@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 
 function DecoderResultsTable({filtered_key_val}){
     return (
-        <Container>
+        <Container fluid>
             <Table striped hover bordered size="sm">
                 <thead>
                     <tr>

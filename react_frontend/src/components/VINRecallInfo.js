@@ -1,5 +1,6 @@
 import React from "react"
 import Accordion from 'react-bootstrap/Accordion';
+import Container from "react-bootstrap/esm/Container";
 import Table from 'react-bootstrap/Table'
 
 // render the accordion display of tables containing recall events
@@ -13,6 +14,7 @@ function VINRecallInfo({recall_data}){
             <>
             {/* <p>{JSON.stringify(recall_data)}</p> */}
             <h2>Recall Alerts</h2>
+            <Container fluid>
             <Accordion className="mb-5">
                 {
                 recall_data["results"].map(
@@ -35,6 +37,7 @@ function VINRecallInfo({recall_data}){
                     )
                 }
             </Accordion>
+            </Container>
             </>
         )
     }

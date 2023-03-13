@@ -39,7 +39,7 @@ function DecoderResultsFilter({vehicle_data_key_val, set_filtered_key_val, defau
         set_filtered_key_val(new_table_data)
     }
     return (
-        <Container>
+        <Container fluid>
                 <Row className="justify-content-md-center">
                     <Col>
                         <b>Filter Results</b>
