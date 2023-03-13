@@ -11,7 +11,6 @@ function DecoderResultsFilter({vehicle_data_key_val, set_filtered_key_val, defau
     const [performance_filter, set_performance_filter] = useState(false)
     const [safety_filter, set_safety_filter] = useState(false)
 
-    
     let basic_options = ["BasePrice", "BodyClass", "FuelTypePrimary"];
     let performance_options = ["TransmissionStyle", "TransmissionSpeeds", "DriveType", "EngineCylinders", "DisplacementL", "Top SpeedMPH"]
     let safety_options = ["AirBagLocCurtain", "AirBagLocFront", "AirBagLocSide", "ABS", "ESC", 
@@ -42,14 +41,14 @@ function DecoderResultsFilter({vehicle_data_key_val, set_filtered_key_val, defau
     return (
         <Container>
                 <Row className="justify-content-md-center">
-                    <Col md="5">
-                        <h3>Filter Options</h3>
+                    <Col>
+                        <b>Filter Results</b>
                         <Form>
-                            <Form.Check onClick={()=>{set_basic_filter(basic_filter == false ? true : false)}} label="Get Basic Attributes" type="checkbox" id="show_basic_attributes" name="show_basic_attributes"/>
-                            <Form.Check onClick={()=>{set_performance_filter(performance_filter == false ? true : false)}} label="Get Performance Attributes" type="checkbox" id="show_performance_attributes" name="show_performance_attributes"/>
-                            <Form.Check onClick={()=>{set_safety_filter(safety_filter == false ? true : false)}} label="Get Safety Attributes" type="checkbox" id="show_safety_attributes" name="show_safety_attributes"/>
+                            <Form.Check onClick={()=>{set_basic_filter(basic_filter == false ? true : false)}} label="Get Basic Data" type="checkbox" id="show_basic_attributes" name="show_basic_attributes"/>
+                            <Form.Check onClick={()=>{set_performance_filter(performance_filter == false ? true : false)}} label="Get Performance Data" type="checkbox" id="show_performance_attributes" name="show_performance_attributes"/>
+                            <Form.Check onClick={()=>{set_safety_filter(safety_filter == false ? true : false)}} label="Get Safety Data" type="checkbox" id="show_safety_attributes" name="show_safety_attributes"/>
                         </Form>
-                        <Button type="button" className="px-5 btn-success" onClick={on_filter_click}>Filter Results</Button>
+                        <Button type="button" className="px-3 mb-3 btn-success" onClick={on_filter_click}>Update Results</Button>
                     </Col>
                 </Row>
         </Container>

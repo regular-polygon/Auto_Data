@@ -16,7 +16,9 @@ def handler():
     for var in args.keys():
         args[var] = request.args.get(var)
         if not args[var]:
-            return jsonify({"error": "No {var} provided".format(var = var)}), 400
+            res = jsonify({"error": "No {var} provided".format(var = var)}), 400
+            res.headers.add("Access-Control-Allow-Origin", "http://localhost:3000")
+            return res
     
     res = jsonify(scrape_recall_data("https://api.nhtsa.gov/recalls/recallsByVehicle?make={make}&model={model}&modelYear={year}".format(make=args["make"], model=args["model"], year=args["year"])))
     res.headers.add("Access-Control-Allow-Origin", "http://localhost:3000")

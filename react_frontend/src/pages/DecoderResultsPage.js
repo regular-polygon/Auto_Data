@@ -1,18 +1,14 @@
 import {useState, useEffect, React} from "react"
-import {Link, Navigate, useNavigate} from "react-router-dom"
-import Button from "react-bootstrap/Button"
-import Table from "react-bootstrap/Table"
+import {Link} from "react-router-dom"
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import Dropdown from "react-bootstrap/Dropdown"
-import Container from "react-bootstrap/Container";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
 import axios from "axios";
 import VINRecallInfo from "../components/VINRecallInfo";
 import DecoderResultsTable from "../components/DecoderResultsTable";
 import DecoderResultsFilter from "../components/DecoderResultsFilter";
 import DecoderResultsOptions from "../components/DecoderResultsOptions";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function DecoderResultsPage({vehicle_data}) {
     // This page shouldn't render anything if vehicle_data is not set. 
@@ -48,15 +44,20 @@ function DecoderResultsPage({vehicle_data}) {
         // call API to get vehicle recall data
         const [make, model, year] = [vehicle_data_key_val["Make"], vehicle_data_key_val["Model"], vehicle_data_key_val["ModelYear"]]
         console.log("Calling API with:", make, model, year)
-        const response = await axios.get(`http://localhost:3839/api3/?make=${make}&model=${model}&year=${year}`);
-        if (response.status == 200) {
-            const res_data = await response.data;
-            console.log("Get NHTSA Recall Response:", res_data);
-            set_recall_data(JSON.parse(res_data));
-        } else {
-            console.log("Failed to get data. Status code:", response.status);
-            alert(`Failed to get data. Status code: ${response.status}`);
-        }
+        axios.get(`http://localhost:3839/api3/?make=${make}&model=${model}&year=${year}`)
+        .then((response) => {
+            if (response.status == 200) {
+                const res_data = response.data;
+                console.log("Get NHTSA Recall Response:", res_data);
+                set_recall_data(JSON.parse(res_data));
+            } else {
+                console.log("Failed to get data. Status code:", response.status);
+                alert(`Failed to get data. Status code: ${response.status}`);
+            }
+        })
+        .catch((error) => {
+            console.log('Error', error.message);
+        });
     }
     // run get_recall_data once 
     useEffect(()=>{
@@ -71,11 +72,19 @@ function DecoderResultsPage({vehicle_data}) {
                 <Breadcrumb.Item active>Results</Breadcrumb.Item>
             </Breadcrumb>
             <h2>VIN Decode Results</h2>
-            <DecoderResultsOptions on_see_all_results_click={on_see_all_results_click}/>
-            <DecoderResultsFilter set_filtered_key_val={set_filtered_key_val} default_filter_options={default_filter_options} vehicle_data_key_val={vehicle_data_key_val}/>
             <div>Search VIN: {vehicle_data_key_val["VIN"]}</div>
             <div>Data Quality: {vehicle_data_key_val["ErrorText"]}</div>
-            <DecoderResultsTable filtered_key_val={filtered_key_val}/>
+            <Container fluid>
+                <Row>
+                    <Col sm={3}>
+                    <DecoderResultsFilter set_filtered_key_val={set_filtered_key_val} default_filter_options={default_filter_options} vehicle_data_key_val={vehicle_data_key_val}/>
+                    <DecoderResultsOptions on_see_all_results_click={on_see_all_results_click}/>
+                    </Col>
+                    <Col sm={9}>
+                    <DecoderResultsTable filtered_key_val={filtered_key_val}/>
+                    </Col>
+                </Row>
+            </Container>
             <VINRecallInfo recall_data={recall_data}/>
         </div>
     )
