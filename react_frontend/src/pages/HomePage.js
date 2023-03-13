@@ -30,7 +30,7 @@ function HomePage() {
                         <Card.Body>
                             <Card.Title>Research Helper</Card.Title>
                             <Card.Text>
-                                Don't have a car in mind? Click here to research manufacturers, models, and more.
+                                Don't have a specific car in mind? Click here to research manufacturers and compare vehicles.
                             </Card.Text>
                             <Button variant="primary" as={Link} to="/research">See More</Button>
                         </Card.Body>

@@ -31,7 +31,7 @@ function ResearchHelperPage({set_vehicle_data}) {
                             <Card.Title>Car Manufacturers Data</Card.Title>
                             <Card.Text>
                                 Select a car manufacturer and get detailed data for that vehicle from the National Highway Traffic Safety Administration.
-                                Wikipedia data is available for the top 50 car manufacturers.
+                                Wikipedia data is also available for the top 50 car manufacturers.
                             </Card.Text>
                             <Button variant="info" type="button" onClick={()=>{navigate("/research/manufacturers")}}>Research Manufacturers</Button>
                         </Card.Body>
