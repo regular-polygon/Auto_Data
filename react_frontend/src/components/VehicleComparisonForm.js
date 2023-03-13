@@ -1,10 +1,7 @@
 import {React, useState, useEffect} from "react";
-import {Link} from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Form from "react-bootstrap/Form";
 import axios from 'axios';
-import VehicleComparisonTable from "../components/VehicleComparisonTable";
 
 function VehicleComparisonForm({vehicle_data, set_car1_data, set_car2_data}) {
     const [car1_vin, set_car1_vin] = useState("")
